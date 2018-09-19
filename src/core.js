@@ -228,7 +228,8 @@ async function pruneNonCriticalCssLauncher ({
   maxEmbeddedBase64Length,
   keepLargerMediaQueries,
   maxElementsToCheckPerSelector,
-  unstableKeepBrowserAlive
+  unstableKeepBrowserAlive,
+  onPageLoaded
 }) {
   let _hasExited = false
   // hacky to get around _hasExited only available in the scope of this function
@@ -316,6 +317,7 @@ async function pruneNonCriticalCssLauncher ({
     // -> [BLOCK FOR] page load
     try {
       await loadPagePromise
+      onPageLoaded && onPageLoaded(page)
     } catch (e) {
       cleanupAndExit({ error: e })
       return
